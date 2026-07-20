@@ -18,3 +18,7 @@ Sample data :
 Send report on email
 
 localhost:8080/api/departments/sendReport?email=dtilesh@gmail.com
+
+
+clon
+https://github.com/tileshdeshmukh/dept_report_send_mail_api.git

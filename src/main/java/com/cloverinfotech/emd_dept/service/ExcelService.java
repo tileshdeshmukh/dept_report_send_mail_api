@@ -4,6 +4,8 @@ import com.cloverinfotech.emd_dept.modal.Department;
 import com.cloverinfotech.emd_dept.modal.Employee;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -13,8 +15,12 @@ import java.util.List;
 @Service
 public class ExcelService {
 
+	private static final Logger log = LoggerFactory.getLogger(ExcelService.class);
+	
     public ByteArrayOutputStream generateDepartmentExcel(List<Department> departments) throws IOException {
-
+    	
+    	log.info("Service :{} Reviced Department sheet data", getClass());
+    	
         try (Workbook workbook = new XSSFWorkbook();
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
@@ -25,7 +31,7 @@ public class ExcelService {
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
             headerStyle.setFont(headerFont);
-
+            
             // Header row column names set 
             Row header = sheet.createRow(0);
             String[] columns = {"Dept ID", "Dept Name", "Emp ID", "Emp Name", "Salary", "Shift"};
@@ -64,6 +70,7 @@ public class ExcelService {
             }
 
             workbook.write(out);
+            log.info("Service: {} Excel workbook created with {}", getClass().getSimpleName());
             return out;
         }
     }

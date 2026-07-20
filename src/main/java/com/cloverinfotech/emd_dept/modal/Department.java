@@ -20,7 +20,8 @@ public class Department {
 	private String dpet_name;
 	
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employees = new ArrayList<>();
 
 
@@ -73,6 +74,6 @@ public class Department {
 		return "Department [id=" + id + ", name=" + dpet_name + "]";
 	}
     
-    
+//  @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true) 
 
 }

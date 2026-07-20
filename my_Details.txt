@@ -1,0 +1,20 @@
+API Urls
+---------------
+Add Department 
+
+POST : http://localhost:8080/api/departments/addDeptEmployee
+
+Sample data :
+
+{
+  "name": "Support",
+  "employees": [
+    { "emp_name": "Tilesh", "salary": 34000, "shift": "Morning" },
+    { "emp_name": "Sahil", "salary": 38000, "shift": "Evening" }
+  ]
+}
+
+
+Send report on email
+
+localhost:8080/api/departments/sendReport?email=dtilesh@gmail.com

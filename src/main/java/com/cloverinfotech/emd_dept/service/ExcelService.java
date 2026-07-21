@@ -19,10 +19,11 @@ public class ExcelService {
 	
     public ByteArrayOutputStream generateDepartmentExcel(List<Department> departments) throws IOException {
     	
-    	log.info("Service :{} Reviced Department sheet data", getClass());
+    	log.info("Reviced Department sheet data");
     	
         try (Workbook workbook = new XSSFWorkbook();
-             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) 
+        {
 
             Sheet sheet = workbook.createSheet("Departments");
 
@@ -68,9 +69,19 @@ public class ExcelService {
             for (int i = 0; i < columns.length; i++) {
                 sheet.autoSizeColumn(i);
             }
+            
+            // Validation Confirm at least one data row was actually written (besides header)
+            if (sheet.getLastRowNum() < 1) {
+                log.warn("Service: {} Excel sheet has no data rows, only header was written", getClass());
+                throw new IllegalStateException("Generated Excel report contains no data rows");
+            }
+            else {
+            	
+            	workbook.write(out);
+            }
 
-            workbook.write(out);
-            log.info("Service: {} Excel workbook created with {}", getClass().getSimpleName());
+            log.info("Service: {} Excel workbook created with {} Size : {} ", getClass(), sheet.getSheetName(), out.size());
+            
             return out;
         }
     }

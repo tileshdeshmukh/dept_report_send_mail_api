@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 
@@ -21,7 +22,8 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
-
+    
+    @Async
     public void sendExcelReport(String toEmail, ByteArrayOutputStream excelStream) throws MessagingException {
     	
     	log.info("Service :{} Reviced email Id : {}", getClass(), toEmail);
@@ -32,11 +34,6 @@ public class EmailService {
         helper.setTo(toEmail);
         helper.setSubject("Department & Employee Report");
         helper.setText("Please find attached the latest department and employee report.");
-
-//        helper.addAttachment("Department_Report.xlsx",
-//                new jakarta.mail.util.ByteArrayDataSource(
-//                        excelStream.toByteArray(),
-//                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         
         byte[] excelBytes = excelStream.toByteArray();
 
@@ -47,6 +44,6 @@ public class EmailService {
 
         mailSender.send(message);
         
-        log.info("Service :{} Email send successfully on this email Id : {}", getClass(), toEmail);
+        log.info("Email send successfully on this email Id : {}", toEmail);
     }
 }

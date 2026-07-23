@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · Emp Dept</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4">
+    <div class="container-fluid px-4">
+      <span class="navbar-brand d-flex align-items-center mb-0">
+        <span class="navbar-brand-icon">ED</span> Emp &amp; Dept Manager
+      </span>
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-muted small" id="welcomeText"></span>
+        <button class="btn btn-outline-secondary btn-sm" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container pb-5">
+
+    <div class="row g-4">
+
+      <!-- Add Department & Employees -->
+      <div class="col-lg-7">
+        <div class="card card-section">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="card-title mb-0" id="formTitle">Add Department &amp; Employees</h5>
+              <button type="button" class="btn btn-sm btn-outline-secondary d-none" id="cancelEditBtn">
+                Cancel edit
+              </button>
+            </div>
+
+            <div id="deptAlertHost"></div>
+
+            <form id="deptForm" novalidate>
+              <input type="hidden" id="editingDeptId" value="" />
+              <div class="mb-3">
+                <label class="form-label">Department name</label>
+                <input type="text" class="form-control" id="deptName" required />
+              </div>
+
+              <label class="form-label d-flex justify-content-between align-items-center">
+                Employees
+                <button type="button" class="btn btn-sm btn-outline-primary" id="addEmployeeBtn">
+                  + Add employee
+                </button>
+              </label>
+
+              <div id="employeeRows"></div>
+
+              <button type="submit" class="btn btn-brand mt-2" id="saveDeptBtn">Save department</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Send Report -->
+      <div class="col-lg-5">
+        <div class="card card-section">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Email Department Report</h5>
+            <p class="text-muted small">Sends an Excel report of all departments &amp; employees to the address below.</p>
+
+            <div id="reportAlertHost"></div>
+
+            <form id="reportForm" novalidate>
+              <div class="mb-3">
+                <label for="reportEmail" class="form-label">Recipient email</label>
+                <input type="email" class="form-control" id="reportEmail" placeholder="name@gmail.com" required />
+              </div>
+              <button type="submit" class="btn btn-brand w-100" id="sendReportBtn">Send report</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Department list -->
+      <div class="col-12">
+        <div class="card card-section">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="card-title mb-0">Departments</h5>
+              <button class="btn btn-sm btn-outline-secondary" id="refreshBtn">Refresh</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                    <th>Dept ID</th>
+                    <th>Dept Name</th>
+                    <th>Emp Name</th>
+                    <th>Salary</th>
+                    <th>Shift</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="deptTableBody"></tbody>
+              </table>
+              <div id="deptEmptyState" class="empty-state d-none">
+                No departments yet — add one using the form above.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toastHost"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

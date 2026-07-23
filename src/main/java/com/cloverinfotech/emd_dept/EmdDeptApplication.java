@@ -17,3 +17,4 @@ public class EmdDeptApplication {
 		log.info("Application started successfully");
 	}
 }
+

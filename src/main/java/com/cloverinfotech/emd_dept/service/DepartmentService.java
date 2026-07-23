@@ -1,6 +1,7 @@
 package com.cloverinfotech.emd_dept.service;
 
 import com.cloverinfotech.emd_dept.modal.Department;
+import com.cloverinfotech.emd_dept.modal.Employee;
 import com.cloverinfotech.emd_dept.repository.DepartmentRepository;
 import jakarta.mail.MessagingException;
 
@@ -26,6 +27,8 @@ public class DepartmentService {
 
     @Autowired
     private EmailService emailService;
+    
+
 
     public Department saveDepartmentWithEmployees(Department department) {
         department.getEmployees().forEach(emp -> emp.setDepartment(department));
@@ -46,6 +49,53 @@ public class DepartmentService {
     	log.info("Fetch all data from Department ");
         return departmentRepository.findAll();
     }
+    
+    public Department getDepartmentById(long id) {
+    	
+    	Department dept = departmentRepository.findById(id)
+    			 .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
+    	
+    	return dept;
+    	
+    }
+    
+    public Department updateDepartmentWithEmployees(long id, Department updatedDept) {
+    	Department existDept = departmentRepository.findById(id)
+   			 .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
+    	
+    	existDept.setName(updatedDept.getName());
+    	
+    	existDept.getEmployees().clear();
+    	
+    	if(updatedDept.getEmployees() != null) {
+    		for(Employee emp : updatedDept.getEmployees()) {
+//    			 emp.setId(null);             
+                 emp.setDepartment(existDept);  
+                 existDept.getEmployees().add(emp);
+    		}
+    		
+    	}
+    	
+    	log.info("Updating department id={} with {} employee(s)", id,
+    			existDept.getEmployees() != null ? existDept.getEmployees().size() : 0);
+
+    	
+    	return departmentRepository.save(existDept);
+    }
+    
+    public void deleteDepartment(long id) {
+    	
+    	if (!departmentRepository.existsById(id)) {
+            throw new RuntimeException("Department not found with id: " + id);
+        }
+        departmentRepository.deleteById(id);
+        log.info("Deleted department id={}", id);
+    	
+    }
+    
+    
+    
+    
     
     public void generateAndEmailReport(String toEmail) throws IOException, MessagingException {
     	log.info("Reviced email Id : {}", toEmail);
